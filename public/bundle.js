@@ -26684,13 +26684,18 @@
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var todos = this.state.todos;
+	            var _state = this.state,
+	                todos = _state.todos,
+	                showCompleted = _state.showCompleted,
+	                searchText = _state.searchText;
+	
+	            var filteredTodos = _TodoAPI2.default.filterTodos(todos, showCompleted, searchText);
 	
 	            return _react2.default.createElement(
 	                'div',
 	                null,
-	                _react2.default.createElement(_TodoSearch2.default, { onSearch: this.handleOnSearch }),
-	                _react2.default.createElement(_TodoList2.default, { todos: todos, onToggle: this.handleOnToggle.bind(this) }),
+	                _react2.default.createElement(_TodoSearch2.default, { onSearch: this.handleOnSearch.bind(this) }),
+	                _react2.default.createElement(_TodoList2.default, { todos: filteredTodos, onToggle: this.handleOnToggle.bind(this) }),
 	                _react2.default.createElement(_AddTodo2.default, { onAddTodo: this.handleAddTodo.bind(this) })
 	            );
 	        }
@@ -27223,6 +27228,30 @@
 	        } catch (e) {}
 	
 	        return Array.isArray(todos) ? todos : [];
+	    },
+	    filterTodos: function filterTodos(todos, showCompleted, searchText) {
+	        var filteredTodos = todos;
+	
+	        filteredTodos = filteredTodos.filter(function (todo) {
+	            return !todo.completed || showCompleted;
+	        });
+	
+	        filteredTodos = filteredTodos.filter(function (todo) {
+	            var text = todo.text.toLowerCase();
+	            return searchText.length === 0 || text.indexOf(searchText) > -1;
+	        });
+	
+	        filteredTodos.sort(function (a, b) {
+	            if (!a.completed && b.completed) {
+	                return -1;
+	            } else if (a.completed && !b.completed) {
+	                return 1;
+	            } else {
+	                return 0;
+	            }
+	        });
+	
+	        return filteredTodos;
 	    }
 	};
 
