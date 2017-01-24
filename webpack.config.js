@@ -1,10 +1,10 @@
 var webpack = require('webpack');
 var path = require('path');
+var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
     entry: [
         'script!jquery/dist/jquery.min.js',
-        'script!foundation-sites/dist/js/foundation.min.js',
         './app/App.jsx'
     ],
     externals: {
@@ -15,6 +15,7 @@ module.exports = {
             '$': 'jquery',
             'jQuery': 'jquery'
         })
+     //   new BundleAnalyzerPlugin()
     ],
     output: {
         path: __dirname,
