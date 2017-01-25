@@ -14,8 +14,9 @@ module.exports = {
         new webpack.ProvidePlugin({
             '$': 'jquery',
             'jQuery': 'jquery'
-        })
-     //   new BundleAnalyzerPlugin()
+        }),
+        new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /de|fr|hu/)
+    //   new BundleAnalyzerPlugin()
     ],
     output: {
         path: __dirname,
