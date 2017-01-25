@@ -9,7 +9,7 @@ class TodoSearch extends Component {
     }
     render() {
         return (
-            <div>
+            <div className="container_header">
                 <div>
                     <input type="text" placeholder="Search Todo's" ref="searchText" onChange={this.handleSearch.bind(this)} />
                 </div>

@@ -12,10 +12,10 @@ class AddTodo extends Component {
     }
     render() {
         return (
-            <div>
+            <div className="container_footer">
                 <form onSubmit={this.addTodo.bind(this)}>
-                    <input type="text" ref="todo" />
-                    <button>Add Todo</button>
+                    <input type="text" ref="todo" placeholder="What do you need to do?" />
+                    <button className="button expanded">Add Todo</button>
                 </form>
             </div>
         );

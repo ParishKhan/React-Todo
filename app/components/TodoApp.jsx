@@ -57,12 +57,22 @@ class TodoApp extends Component {
 
         return (
             <div>
-                <TodoSearch onSearch={this.handleOnSearch.bind(this)} />
-                <TodoList todos={filteredTodos} onToggle={this.handleOnToggle.bind(this)}/>
-                <AddTodo onAddTodo={this.handleAddTodo.bind(this)} />
+                <h1 className="page-title">TODO APP</h1>
+
+                <div className="row">
+                    <div className="column small-centered small-11 medium-6 large-6">
+                        <div className="container">
+                            <TodoSearch onSearch={this.handleOnSearch.bind(this)} />
+                            <TodoList todos={filteredTodos} onToggle={this.handleOnToggle.bind(this)}/>
+                            <AddTodo onAddTodo={this.handleAddTodo.bind(this)} />
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }
 }
 
 export default TodoApp;
+
+
