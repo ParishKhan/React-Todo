@@ -7,14 +7,16 @@ import TodoApp from 'TodoApp';
 import CSS from 'Css';
 import * as actions from 'actions';
 var store = require('configureStore').configure()
+import TodoAPI from 'TodoAPI';
 
 store.subscribe(() => {
-    console.dir(store.getState())
+    var state = store.getState()
+    console.dir(state);
+    TodoAPI.setTodos(state.todos);
 });
 
-store.dispatch(actions.addTodo('learn react'));
-store.dispatch(actions.setSearchText('react'));
-store.dispatch(actions.toggleShowCompleted(true));
+var initialTodos = TodoAPI.getTodos();
+store.dispatch(actions.addTodos(initialTodos));
 
 ReactDOM.render(
     <Provider store={store}>
