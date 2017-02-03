@@ -1,35 +1,41 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import expect from 'expect';
-import TestUtils from 'react-addons-test-utils';
+var React = require('react');
+var ReactDOM = require('react-dom');
+var TestUtils = require('react-addons-test-utils');
+var expect = require('expect');
 import $ from 'jQuery';
 
-import AddTodo from 'AddTodo';
+var {AddTodo} = require('AddTodo');
 
 describe('AddTodo', () => {
-    it('Shoud exist', () => {
-        expect(AddTodo).toExist();
-    });
+  it('should exist', () => {
+    expect(AddTodo).toExist();
+  });
 
-    it('Should call handleAddTodo on valid todo submit', () => {
-        var spy = expect.createSpy();
-        var todo = TestUtils.renderIntoDocument(<AddTodo onAddTodo={spy} />);
-        todo.refs.todo.value = "abc";
+  it('should dispatch ADD_TODO when valid todo text', () => {
+    var todoText = 'Check mail';
+    var action = {
+      type: 'ADD_TODO',
+      text: todoText
+    }
+    var spy = expect.createSpy();
+    var addTodo = TestUtils.renderIntoDocument(<AddTodo dispatch={spy}/>);
+    var $el = $(ReactDOM.findDOMNode(addTodo));
 
-        var $el = $(ReactDOM.findDOMNode(todo));
+    addTodo.refs.todoText.value = todoText;
+    TestUtils.Simulate.submit($el.find('form')[0]);
 
-        TestUtils.Simulate.submit($el.find('form')[0])
-        expect(spy).toHaveBeenCalledWith('abc');
-    });
+    expect(spy).toHaveBeenCalledWith(action);
+  });
 
-    it('Shouldn not call handleAddTodo on invalid todo submit', () => {
-        var spy = expect.createSpy();
-        var todo = TestUtils.renderIntoDocument(<AddTodo onAddTodo={spy} />);
-        todo.refs.todo.value = "";
+  it('should not dispatch ADD_TODO when invalid todo text', () => {
+    var todoText = '';
+    var spy = expect.createSpy();
+    var addTodo = TestUtils.renderIntoDocument(<AddTodo dispatch={spy}/>);
+    var $el = $(ReactDOM.findDOMNode(addTodo));
 
-        var $el = $(ReactDOM.findDOMNode(todo));
+    addTodo.refs.todoText.value = todoText;
+    TestUtils.Simulate.submit($el.find('form')[0]);
 
-        TestUtils.Simulate.submit($el.find('form')[0])
-        expect(spy).toNotHaveBeenCalled();
-    });
+    expect(spy).toNotHaveBeenCalled();
+  });
 });
