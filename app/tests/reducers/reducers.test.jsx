@@ -3,7 +3,7 @@ var df = require('deep-freeze-strict');
 
 import * as reducers from 'reducers';
 
-describe('Reduces', () => {
+describe('Reducers', () => {
     describe('searchReducer', () => {
         it('Should set searchText', () => {
             var action = {
@@ -33,13 +33,18 @@ describe('Reduces', () => {
         it('Should add todos', () => {
             var action = {
                 type: "ADD_TODO",
-                text: 'Bomfalleralla'
-            }
+                todo: {
+                    id: '12fg3d',
+                    text: 'Something to do',
+                    completed: false,
+                    createdAt: 5000
+                }
+            };
 
             var res = reducers.todosReducer(df([]), df(action));
 
             expect(res.length).toEqual(1);
-            expect(res[0].text).toEqual(action.text);
+            expect(res[0]).toEqual(action.todo);
         });
 
         it('Should toggle todo', () => {

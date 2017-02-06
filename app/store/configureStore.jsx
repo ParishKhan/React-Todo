@@ -1,4 +1,5 @@
-import {combineReducers, createStore, compose} from 'redux';
+import {combineReducers, createStore, compose, applyMiddleware} from 'redux';
+import thunk from 'redux-thunk';
 
 import {searchReducer, showCompletedReducer, todosReducer, } from 'reducers';
 
@@ -11,6 +12,7 @@ export var configure = (initialState = {}) => {
     });
 
     var store = createStore(reducer, initialState, compose(
+        applyMiddleware(thunk),
         window.devToolsExtension ? window.devToolsExtension() : f => f
     ));
 
