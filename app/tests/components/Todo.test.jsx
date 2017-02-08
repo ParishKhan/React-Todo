@@ -4,6 +4,7 @@ import expect from 'expect';
 import TestUtils from 'react-addons-test-utils';
 import $ from 'jQuery';
 
+import * as actions from 'actions';
 import {Todo} from 'Todo';
 
 describe('Todo', () => {
@@ -15,8 +16,10 @@ describe('Todo', () => {
         var todoData = {
             id: 112,
             text: "abc",
-            completed: false
+            completed: true
         }
+
+        var action = actions.FBtoggleTodo(todoData.id, !todoData.completed)
 
         var spy = expect.createSpy();
 
@@ -25,9 +28,6 @@ describe('Todo', () => {
 
         TestUtils.Simulate.click($el[0])
 
-        expect(spy).toHaveBeenCalledWith({
-            type: 'TOGGLE_TODO',
-            id: todoData.id
-        });
+        expect(spy).toHaveBeenCalledWith(action);
     })
 });
