@@ -9,14 +9,16 @@ import * as actions from 'actions';
 var store = require('configureStore').configure()
 import TodoAPI from 'TodoAPI';
 
-store.subscribe(() => {
-    var state = store.getState()
-    console.dir(state);
-    TodoAPI.setTodos(state.todos);
-});
+// Get and set todo to local storage
+    // store.subscribe(() => {
+    //     var state = store.getState()
+    //     TodoAPI.setTodos(state.todos);
+    // });
 
-var initialTodos = TodoAPI.getTodos();
-store.dispatch(actions.addTodos(initialTodos));
+    // var initialTodos = TodoAPI.getTodos();
+    // store.dispatch(actions.addTodos(initialTodos));
+
+store.dispatch(actions.FBaddTodos());
 
 ReactDOM.render(
     <Provider store={store}>

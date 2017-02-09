@@ -117,14 +117,16 @@
 	var store = __webpack_require__(304).configure();
 	
 	
-	store.subscribe(function () {
-	    var state = store.getState();
-	    console.dir(state);
-	    _TodoAPI2.default.setTodos(state.todos);
-	});
+	// Get and set todo to local storage
+	// store.subscribe(() => {
+	//     var state = store.getState()
+	//     TodoAPI.setTodos(state.todos);
+	// });
 	
-	var initialTodos = _TodoAPI2.default.getTodos();
-	store.dispatch(actions.addTodos(initialTodos));
+	// var initialTodos = TodoAPI.getTodos();
+	// store.dispatch(actions.addTodos(initialTodos));
+	
+	store.dispatch(actions.FBaddTodos());
 	
 	_reactDom2.default.render(_react2.default.createElement(
 	    _reactRedux.Provider,
@@ -33917,7 +33919,9 @@
 	            //  debugger;
 	
 	            var renderTodos = function renderTodos() {
-	                if (todos.length === 0) {
+	                var fileredTodos = _TodoAPI2.default.filterTodos(todos, showCompleted, searchText);
+	
+	                if (fileredTodos.length === 0) {
 	                    return _react2.default.createElement(
 	                        'p',
 	                        { className: 'container_message' },
@@ -33925,7 +33929,7 @@
 	                    );
 	                };
 	
-	                return _TodoAPI2.default.filterTodos(todos, showCompleted, searchText).map(function (todo) {
+	                return fileredTodos.map(function (todo) {
 	                    return _react2.default.createElement(_Todo2.default, _extends({ key: todo.id }, todo));
 	                });
 	            };
@@ -34052,7 +34056,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.FBtoggleTodo = exports.updateTodo = exports.addTodos = exports.FBaddTodo = exports.addTodo = exports.toggleShowCompleted = exports.setSearchText = undefined;
+	exports.FBtoggleTodo = exports.updateTodo = exports.FBaddTodos = exports.addTodos = exports.FBaddTodo = exports.addTodo = exports.toggleShowCompleted = exports.setSearchText = undefined;
 	
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
@@ -34108,6 +34112,25 @@
 	    return {
 	        type: "ADD_TODOS",
 	        todos: todos
+	    };
+	};
+	
+	var FBaddTodos = exports.FBaddTodos = function FBaddTodos() {
+	    return function (dispatch, getState) {
+	        var todoRef = _firebase.firebaseRef.child('todos');
+	
+	        todoRef.once('value').then(function (snapshot) {
+	            var todos = snapshot.val();
+	            var todoArr = [];
+	
+	            Object.keys(todos).forEach(function (todoId) {
+	                todoArr.push(_extends({
+	                    id: todoId
+	                }, todos[todoId]));
+	            });
+	
+	            dispatch(addTodos(todoArr));
+	        });
 	    };
 	};
 	

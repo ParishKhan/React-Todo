@@ -47,6 +47,26 @@ export var addTodos = (todos) => {
     }
 }
 
+export var FBaddTodos = () => {
+    return (dispatch, getState) => {
+        var todoRef = firebaseRef.child('todos');
+
+        todoRef.once('value').then((snapshot) => {
+            var todos = snapshot.val();
+            var todoArr = [];
+
+            Object.keys(todos).forEach((todoId) => {
+                todoArr.push({
+                    id: todoId,
+                    ...todos[todoId]
+                });
+            });
+
+            dispatch(addTodos(todoArr));
+        });
+    }
+}
+
 export var updateTodo = (id, updates) => {
     return {
         type: "UPDATE_TODO",

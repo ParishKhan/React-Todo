@@ -8,13 +8,15 @@ export class TodoList extends Component {
         var {todos, showCompleted, searchText} = this.props;
       //  debugger;
         var renderTodos = () => {
-            if(todos.length === 0) {
+            var fileredTodos = TodoAPI.filterTodos(todos, showCompleted, searchText);
+
+            if(fileredTodos.length === 0) {
                 return (
                     <p className="container_message">Nothing To Do</p>
                 );
             };
 
-           return TodoAPI.filterTodos(todos, showCompleted, searchText).map((todo) => {
+           return fileredTodos.map((todo) => {
                 return <Todo key={todo.id} {...todo} />
             });
         }
