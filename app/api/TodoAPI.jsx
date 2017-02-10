@@ -1,4 +1,4 @@
-import uuid from 'uuid';
+import uuid from 'node-uuid';
 
 export default {
     setTodos(todos) {
