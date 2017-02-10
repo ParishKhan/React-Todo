@@ -2,6 +2,8 @@ var webpack = require('webpack');
 var path = require('path');
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
+process.env.NODE_ENV == process.env.NODE_ENV || "development";
+
 module.exports = {
     entry: [
         'script!jquery/dist/jquery.min.js',
@@ -15,7 +17,12 @@ module.exports = {
             '$': 'jquery',
             'jQuery': 'jquery'
         }),
-        new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /de|fr|hu/)
+        new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /de|fr|hu/),
+        new webpack.optimize.UglifyJsPlugin({
+            compressor: {
+                warnings: false
+            }
+        })
     //   new BundleAnalyzerPlugin()
     ],
     output: {
@@ -48,7 +55,11 @@ module.exports = {
             exclude: /(node_modules|bower_components)/
         }, {
             test: /\.scss$/,
-            loaders: ['style-loader', 'css-loader?sourceMap', 'sass-loader?sourceMap']
+            loaders: [
+                'style-loader', 
+                process.env.NODE_ENV === 'production' ? 'css-loader' : 'css-loader?sourceMap',
+                process.env.NODE_ENV === 'production' ? 'sass-loader' : 'sass-loader?sourceMap'
+            ]
         }
         ]
     },
@@ -57,5 +68,5 @@ module.exports = {
             path.resolve(__dirname, './node_modules/foundation-sites/scss')
         ]
     },
-    devtool: 'source-map'
+    devtool: process.env.NODE_ENV === 'production' ? undefined : 'source-map'
 };
