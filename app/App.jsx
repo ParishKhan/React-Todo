@@ -7,7 +7,7 @@ import TodoApp from 'TodoApp';
 import CSS from 'Css';
 import * as actions from 'actions';
 var store = require('configureStore').configure()
-import TodoAPI from 'TodoAPI';
+//import TodoAPI from 'TodoAPI';
 
 // Get and set todo to local storage
     // store.subscribe(() => {

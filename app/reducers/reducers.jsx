@@ -1,6 +1,3 @@
-import uuid from 'uuid';
-import moment from 'moment';
-
 export var searchReducer = (state = "", action) => {
     switch (action.type) {
         case 'NEW_SEARCH_TEXT':
