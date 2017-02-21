@@ -93,5 +93,33 @@ describe('Reducers', () => {
             expect(res.length).toEqual(1);
             expect(res[0]).toEqual(todos[0]);
         })
-    })
+    });
+
+    describe('authReducer', () => {
+        it('Should store uid on login', () => {
+            var action = {
+                type: "LOGIN",
+                uid: "132adc"
+            }
+
+            var res = reducers.authReducer(undefined, df(action));
+
+            expect(res).toEqual({
+                uid: action.uid
+            });
+        });
+
+        it('Should wipe auth on Logout', () => {
+            var authData = {
+                uid: "123abc"
+            }
+            var action = {
+                type: "LOGOUT"
+            }
+
+            var res = reducers.authReducer(df(authData), df(action));
+
+            expect(res).toEqual({});
+        })
+    });
 })

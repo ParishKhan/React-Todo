@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 
 import TodoList from 'TodoList';
 import AddTodo from 'AddTodo';
 import TodoSearch from 'TodoSearch';
+import * as actions from 'actions';
 
-class TodoApp extends Component {
+export class TodoApp extends Component {
     // constructor(props) {
     //     super(props)
 
@@ -14,9 +16,18 @@ class TodoApp extends Component {
     //         todos: TodoAPI.getTodos()
     //     }
     // }
+    onLogout(e) {
+        e.preventDefault()
+        var {dispatch} = this.props;
+
+        dispatch(actions.startLogout());
+    }
     render() {
         return (
             <div>
+                <div className="page-actions">
+                    <a href="#" onClick={this.onLogout.bind(this)}>Logout</a>
+                </div>
                 <h1 className="page-title">TODO APP</h1>
 
                 <div className="row">
@@ -33,6 +44,6 @@ class TodoApp extends Component {
     }
 }
 
-export default TodoApp;
+export default connect()(TodoApp);
 
 
